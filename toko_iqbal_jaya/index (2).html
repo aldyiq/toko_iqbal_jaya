@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Syauqi Jaya</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        h2 {
+            font-weight: bold;
+            color: #333;
+            animation: fadeInDown 1s ease-in-out;
+        }
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container my-5">
+        <h2 class="text-center"></h2>
+        <div class="text-center my-3">
+            <select id="categoryFilter" class="form-select w-50 mx-auto" onchange="filterProducts()">
+                <option value="all">Semua Kategori</option>
+                <option value="elektronik">Elektronik</option>
+                <option value="fashion">Fashion</option>
+                <option value="peralatan">Peralatan</option>
+            </select>
+        </div>
+        <div id="product-list" class="row mt-4"></div>
+    </div>
+    
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init(); // Inisialisasi AOS untuk animasi
+
+const products = [
+{ id: 1, name: "Produk A", price: 100000, description: "Produk fashion berkualitas tinggi", category: "fashion", image : "img/baju 1.jpg"},
+    { id: 2, name: "Produk B", price: 150000, description: "Fashion terbaru untuk gaya modern", category: "fashion", image: "img/baju 2.jpg" },
+    { id: 3, name: "Produk C", price: 200000, description: "Peralatan rumah tangga yang praktis", category: "peralatan", image: "img/peralatan rt.jpg" },
+    { id: 4, name: "Produk D", price: 250000, description: "Gadget canggih dengan fitur terbaik", category: "elektronik", image: "img/hp 1.jpg" },
+    { id: 5, name: "Produk E", price: 300000, description: "Smartphone terbaru dengan fitur canggih", category: "elektronik", image: "img/hp 2.jpg"},
+
+];
+
+function renderProducts(filteredProducts = products) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+    filteredProducts.forEach((product, index) => {
+        const productCard = document.createElement("div");
+        productCard.classList.add("col-md-4", "mb-4");
+        productCard.setAttribute("data-aos", "fade-up"); // Menambahkan animasi fade-up
+        
+        productCard.innerHTML = `
+            <div class="card shadow-sm">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text">${product.description}</p>
+                    <p class="card-text fw-bold text-primary">Rp ${product.price.toLocaleString()}</p>
+                    <button class="btn btn-primary" onclick="addToCart(${product.id})">Beli Sekarang</button>
+                </div>
+            </div>
+        `;
+        productList.appendChild(productCard);
+    });
+
+    AOS.refresh(); // Refresh animasi setelah elemen dimuat
+}
+
+function filterProducts() {
+    const selectedCategory = document.getElementById("categoryFilter").value;
+    const filteredProducts = selectedCategory === "all" ? products : products.filter(p => p.category === selectedCategory);
+    renderProducts(filteredProducts);
+}
+
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    alert(`Anda menambahkan ${product.name} ke keranjang!`);
+}
+
+document.addEventListener("DOMContentLoaded", () => renderProducts());
+</script>
+<script>
+    function animateText(element, text, speed = 100) {
+    let i = 0;
+    function typeEffect() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typeEffect, speed);
+        }
+    }
+    typeEffect();
+}
+
+function randomColor() {
+    const colors = ["red", "blue", "green", "purple", "orange", "cyan"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function applyColorEffect(element) {
+    setInterval(() => {
+        element.style.color = randomColor();
+    }, 500);
+}
+
+function glitchEffect(element) {
+    setInterval(() => {
+        element.style.visibility = "hidden";
+        setTimeout(() => {
+            element.style.visibility = "visible";
+        }, 100);
+    }, 1000);
+}
+
+// **Eksekusi Efek ke Elemen H2**
+document.addEventListener("DOMContentLoaded", function() {
+    const title = document.querySelector("h2");
+    title.innerHTML = ""; // Kosongkan dulu sebelum animasi
+    animateText(title, "Produk TOKO SYAUQI JAYA");
+    applyColorEffect(title);
+    glitchEffect(title);
+});
+document.addEventListener("DOMContentLoaded", function() {
+    const images = document.querySelectorAll(".card img");
+
+    images.forEach((img) => {
+        // Efek Fade-In saat halaman dimuat
+        img.style.opacity = "0";
+        img.style.transform = "scale(0.8)";
+        setTimeout(() => {
+            img.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+            img.style.opacity = "1";
+            img.style.transform = "scale(1)";
+        }, 200);
+
+        // Efek Zoom saat hover
+        img.addEventListener("mouseover", () => {
+            img.style.transform = "scale(1.1)";
+            img.style.transition = "transform 0.3s ease";
+        });
+
+        img.addEventListener("mouseout", () => {
+            img.style.transform = "scale(1)";
+        });
+
+        // Efek Rotasi saat diklik
+        img.addEventListener("click", () => {
+            img.style.transform = "rotate(5deg)";
+            setTimeout(() => {
+                img.style.transform = "rotate(0deg)";
+            }, 300);
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const images = document.querySelectorAll(".card img");
+
+    images.forEach((img) => {
+        const card = img.closest(".card");
+
+        // Set default transform style
+        card.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+        card.style.perspective = "1000px";
+        
+        // Efek 3D saat mouse bergerak
+        card.addEventListener("mousemove", (event) => {
+            const { offsetX, offsetY } = event;
+            const { clientWidth, clientHeight } = card;
+            const rotateX = ((offsetY / clientHeight) * 30) - 15; // -15° to 15°
+            const rotateY = ((offsetX / clientWidth) * 30) - 15; // -15° to 15°
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+            card.style.boxShadow = "5px 10px 20px rgba(0,0,0,0.2)";
+        });
+
+        // Efek kembali normal saat mouse keluar
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+            card.style.boxShadow = "none";
+        });
+
+        // Efek kecil saat gambar diklik (animasi klik)
+        img.addEventListener("click", () => {
+            img.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                img.style.transform = "scale(1)";
+            }, 200);
+        });
+    });
+});
+
+</script>
+</body>
+</html>
